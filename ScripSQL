@@ -1,0 +1,80 @@
+DROP TABLE IF EXISTS Carro_Acidente CASCADE;
+DROP TABLE IF EXISTS Apolice CASCADE;
+DROP TABLE IF EXISTS Acidente CASCADE;
+DROP TABLE IF EXISTS Carro CASCADE;
+DROP TABLE IF EXISTS Cliente CASCADE;
+
+CREATE TABLE Cliente (
+    clien_num INT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    endereco VARCHAR(200)
+);
+
+CREATE TABLE Carro (
+    registro VARCHAR(50) PRIMARY KEY,
+    marca VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Apolice (
+    apo_num INT PRIMARY KEY,
+    valor INT NOT NULL,
+    clien_num INT NOT NULL,
+    registro VARCHAR(50) NOT NULL,
+    FOREIGN KEY (clien_num) REFERENCES Cliente(clien_num),
+    FOREIGN KEY (registro) REFERENCES Carro(registro)
+);
+
+CREATE TABLE Acidente (
+    id SERIAL PRIMARY KEY,
+    data DATE NOT NULL,
+    horario TIME NOT NULL,
+    local VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Carro_Acidente (
+    id SERIAL PRIMARY KEY,
+    registro VARCHAR(50) NOT NULL,
+    acidente_id INT NOT NULL,
+    FOREIGN KEY (registro) REFERENCES Carro(registro),
+    FOREIGN KEY (acidente_id) REFERENCES Acidente(id)
+);
+
+INSERT INTO Cliente (clien_num, nome, endereco) VALUES
+(1, 'João Silva', 'Rua A, 123'),
+(2, 'Maria Souza', 'Av. Central, 456'),
+(3, 'Carlos Pereira', 'Rua das Palmeiras, 78'),
+(4, 'Ana Oliveira', 'Travessa das Acácias, 12'),
+(5, 'Fernanda Lima', 'Av. Brasil, 890');
+
+INSERT INTO Carro (registro, marca) VALUES
+('ABC1234', 'Fiat'),
+('XYZ9876', 'Toyota'),
+('JKL4567', 'Honda'),
+('MNO3210', 'Ford'),
+('PQR7890', 'Chevrolet');
+
+INSERT INTO Apolice (apo_num, valor, clien_num, registro) VALUES
+(1001, 50000, 1, 'ABC1234'),
+(1002, 60000, 2, 'XYZ9876'),
+(1003, 45000, 3, 'JKL4567'),
+(1004, 70000, 4, 'MNO3210'),
+(1005, 80000, 5, 'PQR7890');
+
+INSERT INTO Acidente (data, horario, local) VALUES
+('2025-09-15', '14:30:00', 'Av. Central'),
+('2025-09-16', '09:15:00', 'Rua das Flores'),
+('2025-09-17', '18:45:00', 'Av. Paulista'),
+('2025-09-18', '22:10:00', 'Rodovia BR-101'),
+('2025-09-19', '07:25:00', 'Rua XV de Novembro');
+
+INSERT INTO Carro_Acidente (registro, acidente_id) VALUES
+('ABC1234', 1),  -- Fiat no acidente 1
+('XYZ9876', 1),  -- Toyota no acidente 1
+('JKL4567', 2),  -- Honda no acidente 2
+('MNO3210', 3),  -- Ford no acidente 3
+('PQR7890', 4),  -- Chevrolet no acidente 4
+('ABC1234', 5),  -- Fiat também no acidente 5
+('XYZ9876', 3),  -- Toyota também no acidente 3
+('JKL4567', 4),  -- Honda também no acidente 4
+('MNO3210', 2),  -- Ford também no acidente 2
+('PQR7890', 5);  -- Chevrolet também no acidente 5
