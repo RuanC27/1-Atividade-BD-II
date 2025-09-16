@@ -1,0 +1,39 @@
+INSERT INTO Cliente (clien_num, nome, endereco) VALUES
+(1, 'João Silva', 'Rua A, 123'),
+(2, 'Maria Souza', 'Av. Central, 456'),
+(3, 'Carlos Pereira', 'Rua das Palmeiras, 78'),
+(4, 'Ana Oliveira', 'Travessa das Acácias, 12'),
+(5, 'Fernanda Lima', 'Av. Brasil, 890');
+
+INSERT INTO Carro (registro, marca) VALUES
+('ABC1234', 'Fiat'),
+('XYZ9876', 'Toyota'),
+('JKL4567', 'Honda'),
+('MNO3210', 'Ford'),
+('PQR7890', 'Chevrolet');
+
+INSERT INTO Apolice (apo_num, valor, clien_num, registro) VALUES
+(1001, 50000, 1, 'ABC1234'),
+(1002, 60000, 2, 'XYZ9876'),
+(1003, 45000, 3, 'JKL4567'),
+(1004, 70000, 4, 'MNO3210'),
+(1005, 80000, 5, 'PQR7890');
+
+INSERT INTO Acidente (data, horario, local) VALUES
+('2025-09-15', '14:30:00', 'Av. Central'),
+('2025-09-16', '09:15:00', 'Rua das Flores'),
+('2025-09-17', '18:45:00', 'Av. Paulista'),
+('2025-09-18', '22:10:00', 'Rodovia BR-101'),
+('2025-09-19', '07:25:00', 'Rua XV de Novembro');
+
+INSERT INTO Carro_Acidente (registro, acidente_id) VALUES
+('ABC1234', 1),
+('XYZ9876', 1),
+('JKL4567', 2),
+('MNO3210', 3),
+('PQR7890', 4),
+('ABC1234', 5),
+('XYZ9876', 3),
+('JKL4567', 4),
+('MNO3210', 2),
+('PQR7890', 5);
