@@ -1,0 +1,43 @@
+-- 1. Listar todos os clientes
+SELECT * FROM Cliente;
+
+-- 2. Listar todos os carros
+SELECT * FROM Carro;
+
+-- 3. Listar todas as apólices com cliente e carro
+SELECT a.apo_num, a.valor, c.nome AS cliente, ca.marca AS carro
+FROM Apolice a
+JOIN Cliente c ON a.clien_num = c.clien_num
+JOIN Carro ca ON a.registro = ca.registro;
+
+-- 4. Listar todos os acidentes
+SELECT * FROM Acidente;
+
+-- 5. Listar os carros envolvidos em cada acidente
+SELECT ac.id AS acidente_id, ac.data, ac.local, ca.registro, ca.marca
+FROM Acidente ac
+JOIN Carro_Acidente caa ON ac.id = caa.acidente_id
+JOIN Carro ca ON caa.registro = ca.registro
+ORDER BY ac.id;
+
+-- 6. Mostrar quais acidentes cada cliente já teve com seus carros
+SELECT cl.nome AS cliente, ac.id AS acidente_id, ac.data, ac.local, ca.marca
+FROM Cliente cl
+JOIN Apolice ap ON cl.clien_num = ap.clien_num
+JOIN Carro ca ON ap.registro = ca.registro
+JOIN Carro_Acidente caa ON ca.registro = caa.registro
+JOIN Acidente ac ON caa.acidente_id = ac.id
+ORDER BY cl.nome, ac.data;
+
+-- 7. Total de apólices por cliente
+SELECT cl.nome, COUNT(ap.apo_num) AS total_apolices
+FROM Cliente cl
+LEFT JOIN Apolice ap ON cl.clien_num = ap.clien_num
+GROUP BY cl.nome;
+
+-- 8. Quantos carros cada acidente envolveu
+SELECT ac.id AS acidente_id, ac.local, COUNT(caa.registro) AS qtd_carros
+FROM Acidente ac
+LEFT JOIN Carro_Acidente caa ON ac.id = caa.acidente_id
+GROUP BY ac.id, ac.local
+ORDER BY ac.id;
