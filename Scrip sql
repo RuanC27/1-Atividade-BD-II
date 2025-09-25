@@ -1,0 +1,72 @@
+CREATE TABLE Cliente (
+    clien_num INT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    endereco VARCHAR(200)
+);
+
+CREATE TABLE Carro(
+	registro VARCHAR(50) PRIMARY KEY,
+	marca VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Apolice (
+	apo_num INT PRIMARY KEY,
+	valor INT NOT NULL,
+	clien_num INT NOT NULL,
+	registro VARCHAR(50) NOT NULL,
+	FOREIGN KEY (clien_num) REFERENCES Cliente(clien_num),
+	FOREIGN KEY (registro) REFERENCES Carro(registro)
+);
+
+CREATE TABLE Acidente (
+	Id SERIAL PRIMARY KEY,
+	data_acidente DATE NOT NULL,
+	hora_acidente TIME NOT NULL,
+	local VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Carro_Acidente (
+    id SERIAL PRIMARY KEY,
+    registro VARCHAR(50) NOT NULL,
+    acidente_id INT NOT NULL,
+    FOREIGN KEY (registro) REFERENCES Carro(registro),
+    FOREIGN KEY (acidente_id) REFERENCES Acidente(id)
+);
+
+INSERT INTO Cliente (clien_num, nome, endereco) VALUES
+(1, 'João Silva', 'Rua A, 123');
+
+INSERT INTO Carro (registro, marca) VALUES
+('ABC1234', 'Fiat');
+
+INSERT INTO Apolice (apo_num, valor, clien_num, registro) VALUES
+(1001, 50000, 1, 'ABC1234');
+
+INSERT INTO Acidente (data_acidente, hora_acidente, local) VALUES
+('2025-09-15', '14:30:00', 'Av. Central');
+
+INSERT INTO Carro_Acidente (registro, acidente_id) VALUES
+('ABC1234', 1);
+
+INSERT INTO Cliente (clien_num, nome, endereco) VALUES
+(2, 'Julia Maria', 'Rua B, 523');
+
+INSERT INTO Carro (registro, marca) VALUES
+('EFR8754', 'Fiat');
+
+INSERT INTO Apolice (apo_num, valor, clien_num, registro) VALUES
+(1002, 60000, 2, 'EFR8754');
+
+INSERT INTO Acidente (data_acidente, hora_acidente, local) VALUES
+('2025-03-12', '15:23:51', 'Av. Secundaria');
+
+SELECT c.nome AS Cliente, a.valor AS Apolice
+FROM Apolice a
+JOIN Cliente c ON a.clien_num = c.clien_num
+
+SELECT c.nome AS Cliente, co.marca AS Carro, ac.data_acidente AS Acidente, ac.hora_acidente AS Acidente
+FROM Apolice a
+JOIN Cliente c ON a.clien_num = c.clien_num
+JOIN Carro co ON co.registro = a.registro 
+JOIN Carro_acidente ca ON ca.registro = co.registro 
+JOIN Acidente ac on ca.acidente_id = ac.id
